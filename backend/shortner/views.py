@@ -26,6 +26,8 @@ def url_shortner(request):
       data=URLShortenerSerializer(shortened_url).data
       context = {'shorten_url': "http://localhost:8000/stickylink/"+slug}
 
+      print(data)
+
       return Response(
          {**data,**context},
          status=status.HTTP_201_CREATED,
