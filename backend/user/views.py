@@ -7,7 +7,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 from django.core.cache import cache
 from django.http import JsonResponse
-from .models import Account
 
 
 @api_view(['POST'])
@@ -16,21 +15,14 @@ def register(request):
     Register a new user.
     """
     serializer = UserSerializer(data=request.data)
-
-    if serializer.is_valid():
-        email = serializer.validated_data['email']
-
-        # Check if user with the same username already exists
-        if Account.objects.filter(email=email).exists():
-            return Response({"error": "User with this Email already exists."}, status=status.HTTP_409_CONFLICT)
-
+    if serializer.is_valid():z
         user = serializer.save()
         refresh = RefreshToken.for_user(user)
         return Response({
             "refresh": str(refresh),
             "access": str(refresh.access_token)
         }, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=400)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
