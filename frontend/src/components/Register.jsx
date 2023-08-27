@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -10,6 +12,7 @@ function Registration() {
         try {
             const response = await axios.post('http://localhost:8000/register/', { email, password });
             console.log(response.data);
+            navigate("/login");
         } catch (error) {
             console.error(error);
         }

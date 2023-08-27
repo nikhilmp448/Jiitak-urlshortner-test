@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 
 
 const Login = () => {
@@ -11,8 +12,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/token/', { email, password });
-            localStorage.setItem('acces_token', response.data.access); // Store the token in state
+            const response = await axios.post('http://localhost:8000/token/', { email, password }
+            );
+            console.log(response.data)
+            localStorage.setItem('token', response.data.access);
+            localStorage.setItem('refresh', response.data.refresh); // Store the token in state
             navigate("/");
 
         } catch (error) {
@@ -26,6 +30,8 @@ const Login = () => {
         <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">Login</button>
+        <Link to="/register"><button>register</button></Link>
+
     </form>
 </div>
   )

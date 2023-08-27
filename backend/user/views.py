@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
-# from tokenconfig.models import BlacklistedToken
+from django.core.cache import cache
+from django.http import JsonResponse
 
 ### register view ###
 
@@ -24,15 +25,13 @@ def register(request):
 
 ### logout view ###
 
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-# def logout(request):
-#     refresh_token = request.data.get('refresh_token')
-#     if refresh_token:
-#         token = RefreshToken(refresh_token)
-#         token.blacklist()
-#         BlacklistedToken.objects.create(token=str(token))
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-#     return Response(status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def logout(request):
+    try:
+        refresh_token = request.data["refresh_token"]
+        refresh_token_obj = RefreshToken(refresh_token)
+        refresh_token_obj.blacklist()
+        return Response({"message": "Logout successful"}, status=200)
+    except Exception as e:
+        return Response({"error": "Logout failed"}, status=400)
     

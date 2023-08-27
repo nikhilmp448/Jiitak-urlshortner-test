@@ -1,17 +1,19 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from .models import URLShortener
 import random
-from django.shortcuts import redirect
-from string import ascii_lowercase
-from rest_framework.response import Response
+from django.shortcuts import render
 from rest_framework import status
+from .models import URLShortener
+from string import ascii_lowercase
+from rest_framework import viewsets
+from django.shortcuts import redirect
+from rest_framework.response import Response
 from .serializers import URLShortenerSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
 ### to short the given urls ###
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def url_shortner(request):
    serializer = URLShortenerSerializer(data = request.data)
    if serializer.is_valid():
