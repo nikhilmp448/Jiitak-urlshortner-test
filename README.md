@@ -17,6 +17,8 @@ pip install -r requirements.txt
 use npm install 
 then
 use npm run dev on frontend directory to access the URL shortener application's user interface.
+## follow on : http://localhost:5173/
+
 
 # Usage
 Using the Jiitak URL Shortener is straightforward:
