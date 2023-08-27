@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'user',
     'shortner',
+    'drf_yasg',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 

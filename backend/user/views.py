@@ -15,7 +15,7 @@ def register(request):
     Register a new user.
     """
     serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():z
+    if serializer.is_valid():
         user = serializer.save()
         refresh = RefreshToken.for_user(user)
         return Response({
