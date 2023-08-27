@@ -12,8 +12,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8000/token/', { email, password });
-            // console.log("response" , response.data.access)
-            localStorage.setItem('token', response.data.access); // Store the token in state
+            localStorage.setItem('acces_token', response.data.access); // Store the token in state
             navigate("/");
 
         } catch (error) {
