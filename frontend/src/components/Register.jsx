@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Registration() {
     const navigate = useNavigate();
@@ -14,7 +16,11 @@ function Registration() {
             console.log(response.data);
             navigate("/login");
         } catch (error) {
-            console.error(error);
+            if (error.response && error.response.data) {
+                toast.error(error.response.data.message); // Display toast notification
+            } else {
+                console.error(error);
+            }
         }
     };
 
@@ -26,6 +32,7 @@ function Registration() {
                 <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">Register</button>
             </form>
+            <ToastContainer />
         </div>
     );
 }

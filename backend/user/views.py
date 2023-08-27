@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 from django.core.cache import cache
 from django.http import JsonResponse
+from .models import Account
 
 
 @api_view(['POST'])
@@ -14,6 +15,11 @@ def register(request):
     """
     Register a new user.
     """
+    email = request.data.get('email')
+    if Account.objects.filter(email=email).exists():
+        response = Response({"message": "A user with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+        return response
+
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
