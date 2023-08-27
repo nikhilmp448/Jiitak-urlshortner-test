@@ -8,10 +8,12 @@ from .serializers import UserSerializer
 from django.core.cache import cache
 from django.http import JsonResponse
 
-### register view ###
 
 @api_view(['POST'])
 def register(request):
+    """
+    Register a new user.
+    """
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
@@ -23,12 +25,16 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-### logout view ###
-
 @api_view(['POST'])
 def logout(request):
+    """
+    Logout a user by blacklisting the refresh token.
+    """
     try:
         refresh_token = request.data["refresh_token"]
+        if not refresh_token:
+            return Response({"error": "Refresh token not provided"}, status=status.HTTP_400_BAD_REQUEST)
+            
         refresh_token_obj = RefreshToken(refresh_token)
         refresh_token_obj.blacklist()
         return Response({"message": "Logout successful"}, status=200)
